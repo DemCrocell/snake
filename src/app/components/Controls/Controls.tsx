@@ -15,7 +15,7 @@ class Controls extends React.Component<IProps, {}> {
         const {paused, gameOver, resume, reset, totals} = this.props;
         return (
             <div className="snake-controls">
-                {paused ? <button onClick={resume}>Resume</button> : null}
+                {paused ? <button onClick={resume}>Pause</button> : null}
                 {gameOver ? <div className="snake-over">
                     <h2>Totals: {totals}</h2>
                     <button onClick={reset}>New Game</button>
