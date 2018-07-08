@@ -1,0 +1,18 @@
+.snake-controls {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.snake-controls button,
+.snake-over {
+    background: #eee;
+    border: none;
+    box-shadow: 0 0 10px #000;
+    cursor: default;
+    font-size: 20px;
+    opacity: 0.75;
+    padding: 15px;
+    width: 200px;
+}
