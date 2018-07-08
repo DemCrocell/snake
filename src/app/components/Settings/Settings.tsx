@@ -40,19 +40,20 @@ class Settings extends React.Component<IProps, {}> {
                 <button className={`snake-settings-control ${this.state.showForm && '_show'}`} onClick={this.toggleForm}/>
 
                 <div className={`snake-settings-form ${this.state.showForm && '_show'}`}>
-                    {rows.map((value) => (<div className="snake-settings-row">
-                        <label className="snake-settings-label">{value.label}</label>
-                        <input
-                            className="snake-settings-input"
-                            key={`settings-${value.name}`}
-                            onChange={this.handleChange}
-                            onKeyDown={this.handleKey}
-                            name={value.name}
-                            type="number"
-                            value={this.state[value.name]}
-                            max={value.max}
-                            onBlur={this.handleBlur} />
-                    </div>))}
+                    {rows.map((value) => (
+                        <div className="snake-settings-row" key={`settings-${value.name}`}>
+                            <label className="snake-settings-label">{value.label}</label>
+                            <input
+                                className="snake-settings-input"
+                                onChange={this.handleChange}
+                                onKeyDown={this.handleKey}
+                                name={value.name}
+                                type="number"
+                                value={this.state[value.name]}
+                                max={value.max}
+                                onBlur={this.handleBlur} />
+                        </div>
+                    ))}
                 </div>
             </div>
         )
