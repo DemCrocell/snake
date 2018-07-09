@@ -25,7 +25,7 @@ interface IState {
 
 class Game extends React.Component<IProps, IState> {
     private nextDirection: number|null = null;
-    private canvasId: string = 'canvas';
+    private canvasRef: React.RefObject<Canvas> = React.createRef();
     constructor(props: IProps) {
         super(props);
         const start = 21;
@@ -70,8 +70,10 @@ class Game extends React.Component<IProps, IState> {
     public resume = async() => {
         if (this.state.gameOver || !this.state.paused) { return; }
         await this.setState({paused: false});
-        const element = document.getElementById(this.canvasId);
-        if (element) { element.focus() }
+        const parrentRef = this.canvasRef.current;
+        if (parrentRef && parrentRef.canvasRef && parrentRef.canvasRef.current) {
+            parrentRef.canvasRef.current.focus();
+        }
         this.tick();
     };
 
@@ -138,7 +140,7 @@ class Game extends React.Component<IProps, IState> {
         return (
             <div className="snake-game">
                 <Canvas
-                    id={this.canvasId}
+                    ref={this.canvasRef}
                     className={(gameOver ? ' game-over' : '')}
                     tabIndex={0}
                     numRows={numRows}

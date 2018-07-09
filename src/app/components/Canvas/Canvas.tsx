@@ -7,7 +7,6 @@ interface IProps {
     numCols: number,
     canvas: number[],
     className: string,
-    id: string,
     tabIndex: number,
     onBlur: () => void,
     onFocus: () => void,
@@ -16,6 +15,7 @@ interface IProps {
 }
 
 class Canvas extends React.Component<IProps, {}> {
+    public canvasRef: React.RefObject<HTMLDivElement> = React.createRef();
     public render() {
         const {
             numRows,
@@ -27,12 +27,11 @@ class Canvas extends React.Component<IProps, {}> {
             onFocus,
             onKeyDown,
             style,
-            id,
         } = this.props;
         const classes = `snake-canvas ${className}`;
         return (
             <div
-                id={id}
+                ref={this.canvasRef}
                 className={classes}
                 tabIndex={tabIndex}
                 onBlur={onBlur}
