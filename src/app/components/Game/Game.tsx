@@ -23,6 +23,8 @@ interface IState {
     speed: number;
 }
 
+export const CELL_SIZE = 30;
+
 class Game extends React.Component<IProps, IState> {
     private nextDirection: number|null = null;
     private canvasRef: React.RefObject<Canvas> = React.createRef();
@@ -35,7 +37,7 @@ class Game extends React.Component<IProps, IState> {
 
         this.state = {
             canvas,
-            cellSize: 30,
+            cellSize: CELL_SIZE,
             direction: KEYS.right,
             gameOver: false,
             numCols: this.props.numCols,
@@ -54,7 +56,7 @@ class Game extends React.Component<IProps, IState> {
 
         return {
             canvas,
-            cellSize: 30,
+            cellSize: CELL_SIZE,
             direction: KEYS.right,
             gameOver: false,
             paused: true,
