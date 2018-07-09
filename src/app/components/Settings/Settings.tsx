@@ -33,8 +33,9 @@ class Settings extends React.Component<IProps, {}> {
         });
     }
     public handleChange = async (event: any) => {
+        const { formData } = this.state;
         const value = Math.min(event.target.max, event.target.value);
-        await this.setState({[event.target.name]: value});
+        await this.setState({formData: {...formData, [event.target.name]: value}});
     };
     public handleBlur = (event: any) => {
         const { onChange } = this.props;
