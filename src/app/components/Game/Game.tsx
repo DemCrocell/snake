@@ -72,9 +72,9 @@ class Game extends React.Component<IProps, IState> {
     public resume = async() => {
         if (this.state.gameOver || !this.state.paused) { return; }
         await this.setState({paused: false});
-        const parrentRef = this.canvasRef.current;
-        if (parrentRef && parrentRef.canvasRef && parrentRef.canvasRef.current) {
-            parrentRef.canvasRef.current.focus();
+        const { current } = this.canvasRef;
+        if (current && current.canvasRef && current.canvasRef.current) {
+            current.canvasRef.current.focus();
         }
         this.tick();
     };
