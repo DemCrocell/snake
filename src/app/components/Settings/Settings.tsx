@@ -9,9 +9,9 @@ interface IProps {
 }
 
 const rows = [
-    {name: 'numRows', label: 'Rows', max: 40},
-    {name: 'numCols', label: 'Cols', max: 40},
-    {name: 'speed', label: 'Speed', max: 1000},
+    {name: 'numRows', label: 'Rows', max: 25, min: 10},
+    {name: 'numCols', label: 'Cols', max: 25, min: 10},
+    {name: 'speed', label: 'Speed', max: 300, min: 50},
 ];
 
 class Settings extends React.Component<IProps, {}> {
@@ -35,7 +35,8 @@ class Settings extends React.Component<IProps, {}> {
     public handleChange = async (event: any) => {
         const { formData } = this.state;
         const value = Math.min(event.target.max, event.target.value);
-        await this.setState({formData: {...formData, [event.target.name]: value}});
+        const resultValue = Math.max(event.target.min, value);
+        await this.setState({formData: {...formData, [event.target.name]: resultValue}});
     };
     public handleBlur = (event: any) => {
         const { onChange } = this.props;
@@ -63,6 +64,7 @@ class Settings extends React.Component<IProps, {}> {
                                 type="number"
                                 value={this.state.formData[value.name]}
                                 max={value.max}
+                                min={value.min}
                                 onBlur={this.handleBlur} />
                         </div>
                     ))}
