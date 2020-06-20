@@ -1,13 +1,13 @@
-import React, {FC, memo, useMemo} from 'react';
+import React, {FC, memo, useContext, useMemo} from 'react';
 
-import {useGame} from '../../store/hooks/game';
+import {GameContext} from '../../contexts/game';
 
 import './styles.css';
 
 const Controls: FC = () => {
-  const { data, resume, reset } = useGame();
+  const { data, resume, reset } = useContext(GameContext);
   const { paused, gameOver, snake } = data;
-  const totals = useMemo(() => snake.length -2, [snake.length]);
+  const totals = useMemo(() => snake.length - 2, [snake.length]);
   return (
     <div className='snake-controls'>
       {paused ? <button onClick={resume}>Play</button> : null}

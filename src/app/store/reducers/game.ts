@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import {
   BODY,
   CELL_SIZE,
@@ -33,29 +34,30 @@ export const initState = {
   speed: 100,
 };
 
-export const reducer = (state: typeof initState, action: any) => {
-  switch (action.type) {
-    case PAUSE:
-      return {
-        ...state,
-        paused: true,
-      };
-    case RESET:
-      return {
-        ...state,
-        ...initState,
-      };
-    case RESUME:
-      return {
-        ...state,
-        paused: false,
-      };
-    case UPDATE_GAME:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export const reducer = (state: typeof initState, action: any) =>
+  produce(state, () => {
+    switch (action.type) {
+      case PAUSE:
+        return {
+          ...state,
+          paused: true,
+        };
+      case RESET:
+        return {
+          ...state,
+          ...initState,
+        };
+      case RESUME:
+        return {
+          ...state,
+          paused: false,
+        };
+      case UPDATE_GAME:
+        return {
+          ...state,
+          ...action.payload,
+        };
+      default:
+        return state;
+    }
+  });

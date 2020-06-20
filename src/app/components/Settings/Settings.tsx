@@ -1,17 +1,16 @@
-import React, { FC, memo, useState } from 'react';
+import React, {FC, memo, useContext, useState} from 'react';
 
 import { TABLE_SETTINGS } from '../../constants/settings';
-import {useGame} from '../../store/hooks/game';
-
+import {GameContext} from '../../contexts/game';
 import SettingsRow from './SettingsRow';
 
 import './styles.css';
 
 const Settings: FC = () => {
-  const { data, updateGame } = useGame();
+  const { data, updateGame } = useContext(GameContext);
   const [showForm, setShowForm] = useState(false);
 
-  const toggleForm =() => {
+  const toggleForm = () => {
     setShowForm(!showForm);
   };
 

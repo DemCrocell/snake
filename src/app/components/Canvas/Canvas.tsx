@@ -1,14 +1,14 @@
-import React, {FC, memo, useRef, useState} from 'react';
+import React, {FC, memo, useContext, useRef, useState} from 'react';
 
 import {BODY, DIRS, FOOD, KEYS} from '../../constants/common';
-import {useGame} from '../../store/hooks/game';
+import { GameContext } from '../../contexts/game';
 import {getNextIndex} from '../../utils/common';
 import CanvasCells from './CanvasCells';
 
 import './styles.css';
 
 const Canvas: FC = () => {
-  const { data, pause, resume, updateGame } = useGame();
+  const { data, pause, resume, updateGame } = useContext(GameContext);
   const [nextDirection, setNextDirection] = useState(null);
 
   const {
@@ -17,7 +17,7 @@ const Canvas: FC = () => {
     paused,
   } = data;
 
-  const canvasRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef(null);
 
   const handleKey = ( event:any ) => {
     const direction = event.keyCode;
@@ -49,12 +49,14 @@ const Canvas: FC = () => {
       canvas[ii] = FOOD;
     } else {
       const tail = snake.pop();
+      // @ts-ignore
       if (tail) { canvas[tail] = null; }
     }
     const newSnake = [head, ...snake];
     canvas[head] = BODY;
 
     if (nextDirection) {
+      // @ts-ignore
       direction = nextDirection;
       setNextDirection(null);
     }

@@ -17,7 +17,6 @@ const SettingsRow: FC<IProps> = ({
    onChange,
    value,
 }) => {
-
   const handleSubmit = (val: {[key: string]: number}) => {
     if (onChange) { onChange(val); }
   };

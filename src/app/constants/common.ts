@@ -1,4 +1,4 @@
-export const BODY = 1;
+export const BODY: number = 1;
 export const FOOD = 2;
 export const CELL_SIZE = 30;
 export const START = 21;

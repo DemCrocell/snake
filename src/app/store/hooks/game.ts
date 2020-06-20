@@ -5,8 +5,16 @@ import {getNextIndex} from '../../utils/common';
 import { pause, reset, resume, updateGame } from '../actions/game';
 import { initState, reducer } from '../reducers/game';
 
-export const useGame = () => {
-  const [state, dispatch] = useReducer(reducer, initState);
+export interface IUseGame {
+  data: typeof initState;
+  pause: () => void;
+  reset: () => void;
+  updateGame: (data: Partial<typeof initState>) => void;
+  resume: () => void;
+}
+
+export const useGame = (store: typeof initState = initState) => {
+  const [state, dispatch] = useReducer(reducer, store);
   const [nextDirection, setNextDirection] = useState(null);
 
   const resumeAction = () => {
