@@ -1,77 +1,38 @@
-import * as React from 'react';
+import React, { FC, memo, useState } from 'react';
+
+import { TABLE_SETTINGS } from '../../constants/settings';
+import {useGame} from '../../store/hooks/game';
+
+import SettingsRow from './SettingsRow';
+
 import './styles.css';
 
-interface IProps {
-    numRows: number;
-    numCols: number;
-    speed: number;
-    onChange: (a: {}) => void,
-}
+const Settings: FC = () => {
+  const { data, updateGame } = useGame();
+  const [showForm, setShowForm] = useState(false);
 
-const rows = [
-    {name: 'numRows', label: 'Rows', max: 25, min: 10},
-    {name: 'numCols', label: 'Cols', max: 25, min: 10},
-    {name: 'speed', label: 'Speed', max: 300, min: 50},
-];
+  const toggleForm =() => {
+    setShowForm(!showForm);
+  };
 
-class Settings extends React.Component<IProps, {}> {
-    public state = {
-        formData: {
-            numCols: '',
-            numRows: '',
-            speed: '',
-        },
-        showForm: false,
-    };
-    public componentDidMount() {
-        this.setState({
-            formData: {
-                numCols: this.props.numCols,
-                numRows: this.props.numRows,
-                speed: this.props.speed,
-            },
-        });
-    }
-    public handleChange = async (event: any) => {
-        const { formData } = this.state;
-        const value = Math.min(event.target.max, event.target.value);
-        const resultValue = Math.max(event.target.min, value);
-        await this.setState({formData: {...formData, [event.target.name]: resultValue}});
-    };
-    public handleBlur = (event: any) => {
-        const { onChange } = this.props;
-        if (onChange) { onChange({ [event.target.name]: event.target.value }); }
-    };
-    public handleKey = (event: any) => {
-        if (event.keyCode === 13) { this.handleBlur(event) }
-    };
-    public toggleForm =() => {
-        this.setState({showForm: !this.state.showForm});
-    };
-    public render() {
-        return (
-            <div className="snake-settings">
-                <button className={`snake-settings-control ${this.state.showForm && '_show'}`} onClick={this.toggleForm}/>
-                <div className={`snake-settings-form ${this.state.showForm && '_show'}`}>
-                    {rows.map((value) => (
-                        <div className="snake-settings-row" key={`settings-${value.name}`}>
-                            <label className="snake-settings-label">{value.label}</label>
-                            <input
-                                className="snake-settings-input"
-                                onChange={this.handleChange}
-                                onKeyDown={this.handleKey}
-                                name={value.name}
-                                type="number"
-                                value={this.state.formData[value.name]}
-                                max={value.max}
-                                min={value.min}
-                                onBlur={this.handleBlur} />
-                        </div>
-                    ))}
-                </div>
-            </div>
-        )
-    }
-}
+  return (
+    <div className={`snake-settings ${showForm && '_show'}`}>
+      <button className='snake-settings-control' onClick={toggleForm} />
+      <div className='snake-settings-form'>
+        {TABLE_SETTINGS.map((value) => (
+          <SettingsRow
+            key={`settings-${value.name}`}
+            name={value.name}
+            label={value.label}
+            max={value.max}
+            min={value.min}
+            value={data[value.name]}
+            onChange={updateGame}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default Settings;
+export default memo(Settings);

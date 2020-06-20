@@ -1,13 +1,15 @@
-import * as React from 'react';
-import Game from './app/components/Game'
+import React, { FC } from 'react';
+import Canvas from './app/components/Canvas/Canvas';
+import Controls from './app/components/Controls/Controls';
+import Settings from './app/components/Settings/Settings';
 
 
-class App extends React.Component {
-  public render() {
-    return (
-        <Game numRows={20} numCols={20} speed={100}/>
-    );
-  }
-}
+const App: FC = () => (
+  <div className='snake-game'>
+    <Canvas />
+    <Controls />
+    <Settings />
+  </div>
+);
 
 export default App;

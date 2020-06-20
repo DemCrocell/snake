@@ -1,28 +1,24 @@
-import * as React from 'react';
+import React, {FC, memo, useMemo} from 'react';
+
+import {useGame} from '../../store/hooks/game';
+
 import './styles.css';
 
-interface IProps {
-    paused?: boolean;
-    gameOver: boolean;
-    totals: number;
-    resume?: () => void;
-    reset?: () => void;
-}
+const Controls: FC = () => {
+  const { data, resume, reset } = useGame();
+  const { paused, gameOver, snake } = data;
+  const totals = useMemo(() => snake.length -2, [snake.length]);
+  return (
+    <div className='snake-controls'>
+      {paused ? <button onClick={resume}>Play</button> : null}
+      {gameOver ? (
+        <div className='snake-over'>
+          <h2>Totals: {totals}</h2>
+          <button onClick={reset}>New Game</button>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
-class Controls extends React.Component<IProps, {}> {
-
-    public render() {
-        const {paused, gameOver, resume, reset, totals} = this.props;
-        return (
-            <div className="snake-controls">
-                {paused ? <button onClick={resume}>Pause</button> : null}
-                {gameOver ? <div className="snake-over">
-                    <h2>Totals: {totals}</h2>
-                    <button onClick={reset}>New Game</button>
-                </div> : null}
-            </div>
-        )
-    }
-}
-
-export default Controls
+export default memo(Controls);

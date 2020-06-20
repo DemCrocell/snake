@@ -13,7 +13,7 @@
     overflow: hidden;
 }
 
-.snake-settings-form._show {
+.snake-settings._show .snake-settings-form {
     display: block;
 }
 
@@ -54,7 +54,7 @@
     outline: none;
 }
 
-.snake-settings-control._show {
+.snake-settings._show .snake-settings-control {
     opacity: .9;
     transform: rotate(90deg);
 }
