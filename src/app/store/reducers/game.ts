@@ -1,4 +1,3 @@
-import { produce } from 'immer';
 import {
   BODY,
   CELL_SIZE,
@@ -8,13 +7,11 @@ import {
 import {
   PAUSE,
   RESET,
-  RESUME,
   UPDATE_GAME,
 } from '../../constants/game';
 
 const getCanvas = () => {
-  const canvas = [];
-  canvas[START] = BODY;
+  const canvas = new Array(400).fill(null).map((val, i) => i === START ? BODY : null);
   return canvas;
 };
 
@@ -34,30 +31,24 @@ export const initState = {
   speed: 100,
 };
 
-export const reducer = (state: typeof initState, action: any) =>
-  produce(state, () => {
-    switch (action.type) {
-      case PAUSE:
-        return {
-          ...state,
-          paused: true,
-        };
-      case RESET:
-        return {
-          ...state,
-          ...initState,
-        };
-      case RESUME:
-        return {
-          ...state,
-          paused: false,
-        };
-      case UPDATE_GAME:
-        return {
-          ...state,
-          ...action.payload,
-        };
-      default:
-        return state;
-    }
-  });
+export const reducer = (state: typeof initState, action: any) => {
+  switch (action.type) {
+    case PAUSE:
+      return {
+        ...state,
+        paused: true,
+      };
+    case RESET:
+      return {
+        ...state,
+        ...initState,
+      };
+    case UPDATE_GAME:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    default:
+      return state;
+  }
+};

@@ -6,7 +6,7 @@ import './styles.css';
 interface IProps {
   numRows: number;
   numCols: number;
-  canvas: number[];
+  canvas: Array<number|null>;
 }
 
 const CanvasCells: FC<IProps> = ({ numRows, numCols, canvas }) => {
