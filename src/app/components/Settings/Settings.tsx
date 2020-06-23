@@ -1,7 +1,9 @@
-import React, {FC, memo, useContext, useState} from 'react';
+import cx from 'classnames';
+import React, { FC, memo, useContext, useState } from 'react';
 
 import { TABLE_SETTINGS } from '../../constants/settings';
 import {GameContext} from '../../contexts/game';
+import Button from '../UI/Button';
 import SettingsRow from './SettingsRow';
 
 import './styles.css';
@@ -15,8 +17,8 @@ const Settings: FC = () => {
   };
 
   return (
-    <div className={`snake-settings ${showForm && '_show'}`}>
-      <button className='snake-settings-control' onClick={toggleForm} />
+    <div className={cx('snake-settings', { _show: showForm })}>
+      <Button className='snake-settings-control' onClick={toggleForm} />
       <div className='snake-settings-form'>
         {TABLE_SETTINGS.map((value) => (
           <SettingsRow

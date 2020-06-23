@@ -27,15 +27,13 @@ const SettingsRow: FC<IProps> = ({
     const targetValue = +event.target.value;
     const newValue = Math.min(targetMax, targetValue);
     const resultValue = Math.max(targetMin, newValue);
+
     handleSubmit({ [name]: resultValue} );
   };
-
 
   const handleBlur = (event: any) => {
     handleSubmit({ [event.target.name]: +event.target.value });
   };
-
-
 
   const handleKey = (event: any) => {
     if (event.keyCode === 13) {

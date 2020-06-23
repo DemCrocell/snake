@@ -1,4 +1,5 @@
-import React, { FC, KeyboardEvent, memo, useContext, useRef } from 'react';
+import cx from 'classnames';
+import React, {FC, KeyboardEvent, memo, useCallback, useContext, useRef} from 'react';
 
 import { DIRS, KEYS } from '../../constants/common';
 import { GameContext } from '../../contexts/game';
@@ -9,30 +10,27 @@ import './styles.css';
 
 const Canvas: FC = () => {
   const { data, pause, resume, updateGame } = useContext(GameContext);
-  const {
-    cellSize,
-    gameOver,
-  } = data;
+  const { cellSize, gameOver, numCols, numRows, canvas, paused, direction } = data;
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (canvasRef && canvasRef.current) {
       canvasRef.current.focus();
     }
-  };
+  }, [canvasRef]);
 
-  const handleKey = ( event: KeyboardEvent<HTMLDivElement>) => {
-    const direction = event.keyCode;
-    const difference = Math.abs(data.direction - direction);
+  const handleKey = (event: KeyboardEvent<HTMLDivElement>) => {
+    const keyCode = event.keyCode;
+    const difference = Math.abs(direction - keyCode);
 
-    if (direction === KEYS.pause) {
-      if (data.paused) { resume(); }
+    if (keyCode === KEYS.pause) {
+      if (paused) { resume(); }
       else { pause(); }
       return;
     }
 
-    if (DIRS[direction] && ![0, 2].includes(difference)) {
-      updateGame({ direction });
+    if (DIRS[keyCode] && ![0, 2].includes(difference)) {
+      updateGame({ direction: keyCode });
     }
   };
 
@@ -40,15 +38,14 @@ const Canvas: FC = () => {
     <div onClick={handleClick}>
       <div
         ref={canvasRef}
-        className={`snake-canvas ${(gameOver ? ' game-over' : '')}`}
+        className={cx('snake-canvas', {'game-over': gameOver})}
         tabIndex={0}
-
         onBlur={pause}
         onFocus={resume}
         onKeyDown={handleKey}
-        style={{width: data.numCols * cellSize, height: data.numRows * cellSize}}
+        style={{width: numCols * cellSize, height: numRows * cellSize}}
       >
-        <CanvasCells numRows={data.numRows} numCols={data.numCols} canvas={data.canvas} />
+        <CanvasCells numRows={numRows} numCols={numCols} canvas={canvas} />
       </div>
       <Controls />
     </div>

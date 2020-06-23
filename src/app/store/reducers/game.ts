@@ -4,16 +4,10 @@ import {
   KEYS,
   START,
 } from '../../constants/common';
-import {
-  PAUSE,
-  RESET,
-  UPDATE_GAME,
-} from '../../constants/game';
+import { UPDATE_GAME } from '../../constants/game';
+import {getArray} from '../../utils/common';
 
-const getCanvas = () => {
-  const canvas = new Array(400).fill(null).map((val, i) => i === START ? BODY : null);
-  return canvas;
-};
+const getCanvas = () => getArray(400).map((val, i) => i === START ? BODY : null);
 
 export const defaultState = {
   canvas: getCanvas(),
@@ -33,16 +27,6 @@ export const initState = {
 
 export const reducer = (state: typeof initState, action: any) => {
   switch (action.type) {
-    case PAUSE:
-      return {
-        ...state,
-        paused: true,
-      };
-    case RESET:
-      return {
-        ...state,
-        ...initState,
-      };
     case UPDATE_GAME:
       return {
         ...state,

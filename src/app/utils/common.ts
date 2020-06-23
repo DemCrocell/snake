@@ -22,6 +22,8 @@ export const getNextIndex = (head: number, direction: number, numRows: number, n
   return (numCols * y) + x;
 };
 
+export const getArray = (num: number) => new Array(num).fill(null);
+
 export const randomInteger = (min:number, max:number) => {
   const rand = Math.round(min + Math.random() * (max - min));
   return rand;

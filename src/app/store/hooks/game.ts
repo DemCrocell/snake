@@ -2,8 +2,8 @@ import { useCallback, useEffect, useReducer } from 'react';
 
 import { BODY, FOOD } from '../../constants/common';
 import { IGameData } from '../../types/common';
-import { getNextIndex } from '../../utils/common';
-import { pause, reset, updateGame } from '../actions/game';
+import { getArray, getNextIndex } from '../../utils/common';
+import { updateGame } from '../actions/game';
 import { initState, reducer } from '../reducers/game';
 
 export const useGame = (store = initState) => {
@@ -20,7 +20,7 @@ export const useGame = (store = initState) => {
     if (data.numCols || data.numRows) {
       const newNumCols = data.numCols || numCols;
       const newNumRows = data.numRows || numRows;
-      newCanvas = new Array(newNumCols * newNumRows).fill(null).map((val, i) => canvas[i] || val);
+      newCanvas = getArray(newNumCols * newNumRows).map((val, i) => canvas[i] || val);
     }
     dispatch(updateGame(newCanvas ? {...data, canvas: newCanvas} : data));
   };
@@ -58,14 +58,14 @@ export const useGame = (store = initState) => {
 
   useEffect(() => {
     if (!state.paused) {
-      setTimeout(tick, state.speed);
+      setTimeout(tick, (300/state.speed) * 50);
     }
   }, [state.paused, state.snake]);
 
   return {
     data: state,
-    pause: () => dispatch(pause()),
-    reset: () => dispatch(reset()),
+    pause: () => dispatch(updateGame({ paused: true })),
+    reset: () => dispatch(updateGame({...initState})),
     updateGame: handleUpdateGame,
     resume: resumeAction,
   };
