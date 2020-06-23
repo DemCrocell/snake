@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer, useRef, useState} from 'react';
+import {useCallback, useEffect, useReducer, useState} from 'react';
 
 import {BODY, FOOD} from '../../constants/common';
 import {getNextIndex} from '../../utils/common';
@@ -18,8 +18,6 @@ export const useGame = (store: typeof initState = initState) => {
   const [nextDirection, setNextDirection] = useState(null);
 
   const tick = useCallback(() => {
-    // tslint:disable-next-line:no-console
-    if (state.paused) { return; }
     let { direction } = state;
     const { snake, canvas, numRows, numCols } = state;
     const newCanvas = [...canvas];
@@ -48,28 +46,20 @@ export const useGame = (store: typeof initState = initState) => {
       setNextDirection(null);
     }
 
-    // tslint:disable-next-line:no-console
-    console.log('tick1', { state, head, newSnake, a: canvas[head] === FOOD || snake.length === 1 });
-
     dispatch(updateGame({
       canvas: newCanvas,
       direction,
       snake: newSnake,
     }));
-    // tslint:disable-next-line:no-console
-    console.log('tick', { state });
-    setTimeout(tick, state.speed);
+
   }, [state, updateGame, nextDirection]);
 
   const resumeAction = () => {
     if (state.gameOver || !state.paused) { return; }
     dispatch(updateGame({ paused: false }));
-    tick();
   };
 
   const handleUpdateGame = (data: Partial<typeof initState>) => {
-    // tslint:disable-next-line:no-console
-    console.log('handleUpdateGame', { data, state });
     const { canvas, numCols, numRows } = state;
     let newCanvas = null;
     if (data.numCols || data.numRows) {
@@ -79,6 +69,12 @@ export const useGame = (store: typeof initState = initState) => {
     }
     dispatch(updateGame(newCanvas ? {...data, canvas: newCanvas} : data));
   };
+
+  useEffect(() => {
+    if (!state.paused) {
+      setTimeout(tick, state.speed);
+    }
+  }, [state.paused, state.snake]);
 
   return {
     data: state,
