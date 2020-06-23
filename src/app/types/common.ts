@@ -2,7 +2,6 @@ export interface IGameData {
   canvas: Array<number|null>;
   cellSize: number;
   direction: number;
-  nextDirection: null|number;
   gameOver: boolean;
   paused: boolean;
   snake: number[];

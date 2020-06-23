@@ -19,7 +19,6 @@ export const defaultState = {
   canvas: getCanvas(),
   cellSize: CELL_SIZE,
   direction: KEYS.right,
-  nextDirection: null,
   gameOver: false,
   paused: true,
   snake: [START],

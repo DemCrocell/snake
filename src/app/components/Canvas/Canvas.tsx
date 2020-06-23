@@ -1,14 +1,8 @@
 import React, { FC, KeyboardEvent, memo, useContext, useRef } from 'react';
 
-import {
-  // BODY,
-  DIRS,
-  // FOOD,
-  KEYS,
-} from '../../constants/common';
+import { DIRS, KEYS } from '../../constants/common';
 import { GameContext } from '../../contexts/game';
 import Controls from '../Controls/Controls';
-// import {getNextIndex} from '../../utils/common';
 import CanvasCells from './CanvasCells';
 
 import './styles.css';
@@ -38,9 +32,7 @@ const Canvas: FC = () => {
     }
 
     if (DIRS[direction] && ![0, 2].includes(difference)) {
-      // tslint:disable-next-line:no-console
-      console.log('handleKey 2', { direction, difference, dir: data.direction });
-      updateGame({ nextDirection: direction });
+      updateGame({ direction });
     }
   };
 

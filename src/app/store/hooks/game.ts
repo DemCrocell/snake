@@ -26,7 +26,7 @@ export const useGame = (store = initState) => {
   };
 
   const tick = useCallback(() => {
-    const { direction, nextDirection } = state;
+    const { direction } = state;
     const { snake, canvas, numRows, numCols } = state;
     const newCanvas = [...canvas];
     let newSnake = [...snake];
@@ -51,9 +51,7 @@ export const useGame = (store = initState) => {
 
     handleUpdateGame({
       canvas: newCanvas,
-      direction: nextDirection || direction,
       snake: newSnake,
-      nextDirection: nextDirection && null,
     });
 
   }, [state, updateGame]);
