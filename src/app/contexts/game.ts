@@ -1,6 +1,7 @@
 import { createContext } from 'react';
-import {IUseGame} from '../store/hooks/game';
+
 import {initState} from '../store/reducers/game';
+import { IGameData, IUseGame } from '../types/common';
 
 export const GameContext = createContext<IUseGame>({
   data: initState,
@@ -10,7 +11,7 @@ export const GameContext = createContext<IUseGame>({
   reset: () => {
     throw new Error('not initial');
   },
-  updateGame: (data: Partial<typeof initState>) => {
+  updateGame: (data: Partial<IGameData>) => {
     throw new Error('not initial');
   },
   resume: () => {

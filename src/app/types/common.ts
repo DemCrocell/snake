@@ -1,9 +1,20 @@
-import {initState} from '../store/reducers/game';
+export interface IGameData {
+  canvas: Array<number|null>;
+  cellSize: number;
+  direction: number;
+  nextDirection: null|number;
+  gameOver: boolean;
+  paused: boolean;
+  snake: number[];
+  numCols: number;
+  numRows: number;
+  speed: number;
+}
 
 export interface IUseGame {
-  data: typeof initState;
+  data: IGameData;
   pause: () => void;
   reset: () => void;
-  updateGame: (data: Partial<typeof initState>) => void;
+  updateGame: (data: Partial<Partial<IGameData>>) => void;
   resume: () => void;
 }

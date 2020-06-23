@@ -1,24 +1,32 @@
-import {useCallback, useEffect, useReducer, useState} from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
-import {BODY, FOOD} from '../../constants/common';
-import {getNextIndex} from '../../utils/common';
+import { BODY, FOOD } from '../../constants/common';
+import { IGameData } from '../../types/common';
+import { getNextIndex } from '../../utils/common';
 import { pause, reset, updateGame } from '../actions/game';
 import { initState, reducer } from '../reducers/game';
 
-export interface IUseGame {
-  data: typeof initState;
-  pause: () => void;
-  reset: () => void;
-  updateGame: (data: Partial<typeof initState>) => void;
-  resume: () => void;
-}
-
-export const useGame = (store: typeof initState = initState) => {
+export const useGame = (store = initState) => {
   const [state, dispatch] = useReducer(reducer, store);
-  const [nextDirection, setNextDirection] = useState(null);
+
+  const resumeAction = () => {
+    if (state.gameOver || !state.paused) { return; }
+    dispatch(updateGame({ paused: false }));
+  };
+
+  const handleUpdateGame = (data: Partial<IGameData>) => {
+    const { canvas, numCols, numRows } = state;
+    let newCanvas = null;
+    if (data.numCols || data.numRows) {
+      const newNumCols = data.numCols || numCols;
+      const newNumRows = data.numRows || numRows;
+      newCanvas = new Array(newNumCols * newNumRows).fill(null).map((val, i) => canvas[i] || val);
+    }
+    dispatch(updateGame(newCanvas ? {...data, canvas: newCanvas} : data));
+  };
 
   const tick = useCallback(() => {
-    let { direction } = state;
+    const { direction, nextDirection } = state;
     const { snake, canvas, numRows, numCols } = state;
     const newCanvas = [...canvas];
     let newSnake = [...snake];
@@ -41,34 +49,14 @@ export const useGame = (store: typeof initState = initState) => {
     newSnake = [head, ...newSnake];
     newCanvas[head] = BODY;
 
-    if (nextDirection) {
-      direction = nextDirection;
-      setNextDirection(null);
-    }
-
-    dispatch(updateGame({
+    handleUpdateGame({
       canvas: newCanvas,
-      direction,
+      direction: nextDirection || direction,
       snake: newSnake,
-    }));
+      nextDirection: nextDirection && null,
+    });
 
-  }, [state, updateGame, nextDirection]);
-
-  const resumeAction = () => {
-    if (state.gameOver || !state.paused) { return; }
-    dispatch(updateGame({ paused: false }));
-  };
-
-  const handleUpdateGame = (data: Partial<typeof initState>) => {
-    const { canvas, numCols, numRows } = state;
-    let newCanvas = null;
-    if (data.numCols || data.numRows) {
-      const newNumCols = data.numCols || numCols;
-      const newNumRows = data.numRows || numRows;
-      newCanvas = new Array(newNumCols * newNumRows).fill(null).map((val, i) => canvas[i] || val);
-    }
-    dispatch(updateGame(newCanvas ? {...data, canvas: newCanvas} : data));
-  };
+  }, [state, updateGame]);
 
   useEffect(() => {
     if (!state.paused) {

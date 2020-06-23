@@ -1,9 +1,9 @@
-import React, {FC, memo} from 'react';
+import React, { FC, memo } from 'react';
 import Canvas from './app/components/Canvas';
-import Controls from './app/components/Controls';
 import Settings from './app/components/Settings';
-import {GameContext} from './app/contexts/game';
-import {IUseGame, useGame} from './app/store/hooks/game';
+import { GameContext } from './app/contexts/game';
+import { useGame } from './app/store/hooks/game';
+import { IUseGame } from './app/types/common';
 
 
 const App: FC = () => {
@@ -12,7 +12,6 @@ const App: FC = () => {
     <GameContext.Provider value={value}>
       <div className='snake-game'>
         <Canvas />
-        <Controls />
         <Settings />
       </div>
     </GameContext.Provider>
