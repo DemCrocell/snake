@@ -25,7 +25,7 @@ export const initState = {
   speed: 100,
 };
 
-export const reducer = (state: typeof initState, action: any) => {
+export const reducer = (state: typeof initState, action: { type: string; payload: Partial<typeof initState> }) => {
   switch (action.type) {
     case UPDATE_GAME:
       return {

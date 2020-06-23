@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, memo } from 'react';
+import React, { ChangeEvent, FC, FocusEvent, memo, useCallback } from 'react';
 
 interface IProps {
   name: string;
@@ -17,11 +17,11 @@ const SettingsRow: FC<IProps> = ({
    onChange,
    value,
 }) => {
-  const handleSubmit = (val: {[key: string]: number}) => {
+  const handleSubmit = useCallback((val: {[key: string]: number}) => {
     if (onChange) { onChange(val); }
-  };
+  }, [onChange]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const targetMin = +event.target.min;
     const targetMax = +event.target.max;
     const targetValue = +event.target.value;
@@ -29,17 +29,17 @@ const SettingsRow: FC<IProps> = ({
     const resultValue = Math.max(targetMin, newValue);
 
     handleSubmit({ [name]: resultValue} );
-  };
+  }, [handleSubmit, onChange, name]);
 
-  const handleBlur = (event: any) => {
+  const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     handleSubmit({ [event.target.name]: +event.target.value });
   };
 
-  const handleKey = (event: any) => {
+  const handleKey = useCallback((event: any) => {
     if (event.keyCode === 13) {
       handleSubmit({ [event.target.name]: event.target.value });
     }
-  };
+  }, []);
 
   return (
     <div className='snake-settings-row'>

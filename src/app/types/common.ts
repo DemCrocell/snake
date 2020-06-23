@@ -14,6 +14,6 @@ export interface IUseGame {
   data: IGameData;
   pause: () => void;
   reset: () => void;
-  updateGame: (data: Partial<Partial<IGameData>>) => void;
+  updateGame: (data: Partial<IGameData>) => void;
   resume: () => void;
 }

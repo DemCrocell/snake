@@ -14,7 +14,7 @@ export const useGame = (store = initState) => {
     dispatch(updateGame({ paused: false }));
   };
 
-  const handleUpdateGame = (data: Partial<IGameData>) => {
+  const handleUpdateGame = useCallback((data: Partial<IGameData>) => {
     const { canvas, numCols, numRows } = state;
     let newCanvas = null;
     if (data.numCols || data.numRows) {
@@ -23,7 +23,7 @@ export const useGame = (store = initState) => {
       newCanvas = getArray(newNumCols * newNumRows).map((val, i) => canvas[i] || val);
     }
     dispatch(updateGame(newCanvas ? {...data, canvas: newCanvas} : data));
-  };
+  }, [dispatch, state]);
 
   const tick = useCallback(() => {
     const { direction } = state;

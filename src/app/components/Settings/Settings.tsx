@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { FC, memo, useContext, useState } from 'react';
+import React, {FC, memo, useCallback, useContext, useState} from 'react';
 
 import { TABLE_SETTINGS } from '../../constants/settings';
 import {GameContext} from '../../contexts/game';
@@ -12,9 +12,9 @@ const Settings: FC = () => {
   const { data, updateGame } = useContext(GameContext);
   const [showForm, setShowForm] = useState(false);
 
-  const toggleForm = () => {
+  const toggleForm = useCallback(() => {
     setShowForm(!showForm);
-  };
+  }, [showForm, setShowForm]);
 
   return (
     <div className={cx('snake-settings', { _show: showForm })}>

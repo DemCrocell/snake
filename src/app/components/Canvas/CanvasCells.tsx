@@ -10,8 +10,8 @@ interface IProps {
   canvas: Array<number|null>;
 }
 
-const CanvasCells: FC<IProps> = ({ numRows, numCols, canvas }) => {
-  return <>
+const CanvasCells: FC<IProps> = ({ numRows, numCols, canvas }) =>
+  <>
     {
       getArray(numRows).map((numRow, row) =>
         getArray(numCols).map((numCol, col) => {
@@ -22,6 +22,5 @@ const CanvasCells: FC<IProps> = ({ numRows, numCols, canvas }) => {
       )
     }
   </>;
-};
 
 export default memo(CanvasCells);
