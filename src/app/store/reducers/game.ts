@@ -5,6 +5,7 @@ import {
   START,
 } from '../../constants/common';
 import { UPDATE_GAME } from '../../constants/game';
+import { IGameData } from '../../types/common';
 import {getArray} from '../../utils/common';
 
 const getCanvas = () => getArray(400).map((val, i) => i === START ? BODY : null);
@@ -25,7 +26,7 @@ export const initState = {
   speed: 100,
 };
 
-export const reducer = (state: typeof initState, action: { type: string; payload: Partial<typeof initState> }) => {
+export const reducer = (state: typeof initState, action: { type: string; payload: Partial<IGameData> }) => {
   switch (action.type) {
     case UPDATE_GAME:
       return {
